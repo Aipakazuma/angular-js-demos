@@ -29,13 +29,12 @@ angular.module('FirstApp', [])
         };
     }])
     .controller('Main', [
-        '$scope',
         '$window',
         'HatenaBookmarkHash',
         'FigureService',
-        function ($scope, $window, HatenaBookmarkHash, FigureService) {
-            $scope.hatenaList = HatenaBookmarkHash;
-            $scope.triangle = FigureService.triangle(4, 3);
-            $scope.circle = FigureService.circle(5);
-            $scope.trapezoid = FigureService.trapezoid(5, 10, 3);
+        function ($window, HatenaBookmarkHash, FigureService) {
+            this.hatenaList = HatenaBookmarkHash;
+            this.triangle = FigureService.triangle(4, 3);
+            this.circle = FigureService.circle(5);
+            this.trapezoid = FigureService.trapezoid(5, 10, 3);
         }]);

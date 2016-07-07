@@ -6,20 +6,20 @@
     <script src="./app.js"></script>
     <title>Document</title>
 </head>
-<body ng-controller="Main">
+<body ng-controller="Main as main">
 <h1>デモ</h1>
 <ul>
-    <li ng-repeat="hatena in hatenaList">
+    <li ng-repeat="hatena in main.hatenaList">
         <span ng-bind="hatena.author"></span>
         <span ng-bind="hatena.updated"></span>
     </li>
 </ul>
 <h2>Serviceデモ</h2>
 <ul>
-    <li ng-bind="triangle + ':三角形'"></li>
-    <li ng-bind="circle + ':円'"></li>
-    <li ng-bind="trapezoid + ':台形'"></li>
+    <li ng-bind="main.triangle + ':三角形'"></li>
+    <li ng-bind="main.circle + ':円'"></li>
+    <li ng-bind="main.trapezoid + ':台形'"></li>
 </ul>
-<pre>{{hatenaList | json}}</pre>
+<pre>{{main | json}}</pre>
 </body>
 </html>
