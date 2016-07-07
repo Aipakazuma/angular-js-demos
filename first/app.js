@@ -28,6 +28,35 @@ angular.module('FirstApp', [])
             return (upper + lower) * height / 2;
         };
     }])
+    .directive('firstDirective', ['$log', 'FigureService', function ($log, FigureService) {
+        return {
+            restrict: 'E',
+            scope: false,
+            controller: 'Main',
+            template: '<ul>' +
+                      '    <li ng-bind="triangle + \':三角形\'"></li>' +
+                      '    <li ng-bind="circle + \':円\'"></li>' +
+                      '    <li ng-bind="trapezoid + \':台形\'"></li>' +
+                      '</ul>',
+            link: function(scope, element, attrs, controller) {
+                // directiveがインスタンス生成される度に実行される
+                $log.info(scope);
+                $log.info(element);
+                $log.info(attrs);
+                $log.info(controller);
+
+                // Serviceを仕様して、directiveのscopeを変更
+                scope.triangle = FigureService.triangle(10, 5);
+                scope.circle = FigureService.circle(10);
+                scope.trapezoid = FigureService.trapezoid(10, 5, 3);
+            }
+            /*
+            compile: function(element, attrs) {
+                // 初回だけ呼ばれる
+                // また、linkと併用できないっぽい
+            }*/
+        };
+    }])
     .controller('Main', [
         '$window',
         'HatenaBookmarkHash',
