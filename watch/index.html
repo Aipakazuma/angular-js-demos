@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="FirstApp">
+<head>
+  <meta charset="UTF-8">
+  <script src="../node_modules/angular/angular.min.js"></script>
+  <script src="./app.js"></script>
+  <title>Document</title>
+</head>
+<body ng-controller="Main">
+  <h1>デモ</h1>
+  <ul>
+    <li ng-repeat="hatena in hatenaList">
+      <span ng-bind="hatena.author"></span>
+      <span ng-bind="hatena.updated"></span>
+    </li>
+  </ul>
+  <pre>{{hatenaList | json}}</pre>
+</body>
+</html>
