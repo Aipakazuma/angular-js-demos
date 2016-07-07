@@ -16,12 +16,12 @@
 </ul>
 <h2>Serviceデモ</h2>
 <ul>
-    <li ng-bind="main.triangle + ':三角形'"></li>
-    <li ng-bind="main.circle + ':円'"></li>
-    <li ng-bind="main.trapezoid + ':台形'"></li>
+    <li ng-bind="main.myController.triangle + ':三角形'"></li>
+    <li ng-bind="main.myController.circle + ':円'"></li>
+    <li ng-bind="main.myController.trapezoid + ':台形'"></li>
 </ul>
 <h2>Directiveデモ</h2>
-<first-directive main="main"></first-directive>
+<first-directive main="main.myDirective"></first-directive>
 <pre>{{main | json}}</pre>
 </body>
 </html>

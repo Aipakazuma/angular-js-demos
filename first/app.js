@@ -31,12 +31,14 @@ angular.module('FirstApp', [])
     .directive('firstDirective', ['$log', 'FigureService', function ($log, FigureService) {
         return {
             restrict: 'E',
-            scope: false,
+            scope: {
+                directiveMain: '=main'
+            },
             controller: 'Main',
             template: '<ul>' +
-                      '    <li ng-bind="triangle + \':三角形\'"></li>' +
-                      '    <li ng-bind="circle + \':円\'"></li>' +
-                      '    <li ng-bind="trapezoid + \':台形\'"></li>' +
+                      '    <li ng-bind="directiveMain.triangle + \':三角形\'"></li>' +
+                      '    <li ng-bind="directiveMain.circle + \':円\'"></li>' +
+                      '    <li ng-bind="directiveMain.trapezoid + \':台形\'"></li>' +
                       '</ul>',
             link: function(scope, element, attrs, controller) {
                 // directiveがインスタンス生成される度に実行される
@@ -46,9 +48,10 @@ angular.module('FirstApp', [])
                 $log.info(controller);
 
                 // Serviceを仕様して、directiveのscopeを変更
-                scope.triangle = FigureService.triangle(10, 5);
-                scope.circle = FigureService.circle(10);
-                scope.trapezoid = FigureService.trapezoid(10, 5, 3);
+                // controllerとbindするとmodelがシェアされる
+                scope.directiveMain.triangle = FigureService.triangle(10, 5);
+                scope.directiveMain.circle = FigureService.circle(10);
+                scope.directiveMain.trapezoid = FigureService.trapezoid(10, 5, 3);
             }
             /*
             compile: function(element, attrs) {
@@ -63,7 +66,13 @@ angular.module('FirstApp', [])
         'FigureService',
         function ($window, HatenaBookmarkHash, FigureService) {
             this.hatenaList = HatenaBookmarkHash;
-            this.triangle = FigureService.triangle(4, 3);
-            this.circle = FigureService.circle(5);
-            this.trapezoid = FigureService.trapezoid(5, 10, 3);
+            this.myController = {};
+            this.myController.triangle = FigureService.triangle(4, 3);
+            this.myController.circle = FigureService.circle(5);
+            this.myController.trapezoid = FigureService.trapezoid(5, 10, 3);
+
+            this.myDirective = {};
+            this.myDirective.triangle = 0;
+            this.myDirective.circle = 0;
+            this.myDirective.trapezoid = 0;
         }]);
