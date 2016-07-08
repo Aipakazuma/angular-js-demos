@@ -66,6 +66,58 @@ angular.module('FirstApp', [])
             }*/
         };
     }])
+    .directive('secondDirective', ['$filter', function($filter) {
+        var setup = function (scope, attrs) {
+            scope.min = attrs.min || 0;
+            scope.max = attrs.max || 0;
+            scope.display = 0;
+        };
+
+        return {
+            restrict: 'E',
+            scope: {
+                ngModel: '='
+            },
+            controller: 'Main',
+            template: '<div>' +
+                      '     <input type="range" ng-model="ngModel" min="{{min}}" max="{{max}}" ng-change="myRangeChange()">' +
+                      '     <input type="text" ng-model="display" ng-blur="myBlur()">' +
+                      '</div>',
+            link: function(scope, element, attrs, controller) {
+                setup(scope, attrs);
+
+                scope.myBlur = function() {
+                    var _v = parseFloat(scope.display.replace(/[^0-9\.]/, ''));
+                    var min = parseFloat(scope.min);
+                    var max = parseFloat(scope.max);
+
+                    // 最小値より低いなら、最小値を突っ込む
+                    if (_v < min) {
+                        console.log('min: model:' + scope.ngModel + ', display:' + scope.display + ', change:' + min);
+                        scope.ngModel = min;
+                        scope.display = $filter('number')(min);
+                        return;
+                    }
+
+                    // 最大値より大きいなら、最大値を突っ込む
+                    if (max < _v) {
+                        console.log('max: model:' + scope.ngModel + ', display:' + scope.display + ', change:' + max);
+                        scope.ngModel = max;
+                        scope.display = $filter('number')(max);
+                        return;
+                    }
+                    console.log('model:' + scope.ngModel + ', display:' + scope.display + ', change:' + _v);
+                    scope.ngModel = _v;
+                    scope.display = $filter('number')(_v);
+                };
+
+                scope.myRangeChange = function() {
+                    console.log(scope.ngModel);
+                    scope.display = $filter('number')(scope.ngModel);
+                };
+            }
+        };
+    }])
     .controller('Main', [
         '$window',
         'HatenaBookmarkHash',
@@ -81,4 +133,10 @@ angular.module('FirstApp', [])
             this.myDirective.triangle = 0;
             this.myDirective.circle = 0;
             this.myDirective.trapezoid = 0;
+
+            this.myTestValue = {
+                a: 0,
+                b: 0,
+                c: 0
+            };
         }]);
