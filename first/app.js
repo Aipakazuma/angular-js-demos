@@ -28,17 +28,19 @@ angular.module('FirstApp', [])
             return (upper + lower) * height / 2;
         };
     }])
-    .directive('firstDirective', ['$log', 'FigureService', function ($log, FigureService) {
+    .directive('firstDirective', ['$log', 'FigureService', '$filter', function ($log, FigureService, $filter) {
         return {
             restrict: 'E',
             scope: {
-                directiveMain: '=main'
+                directiveMain: '=main',
+                filterName: '=filterName'
             },
             controller: 'Main',
             template: '<ul>' +
                       '    <li ng-bind="directiveMain.triangle + \':三角形\'"></li>' +
                       '    <li ng-bind="directiveMain.circle + \':円\'"></li>' +
                       '    <li ng-bind="directiveMain.trapezoid + \':台形\'"></li>' +
+                      '    <li><input type="text" ng-model="directiveMain.trapezoid" ng-blur="myBlur()" ng-model-options="{updateOn: \'blur\'}"></li>' +
                       '</ul>',
             link: function(scope, element, attrs, controller) {
                 // directiveがインスタンス生成される度に実行される
@@ -51,7 +53,11 @@ angular.module('FirstApp', [])
                 // controllerとbindするとmodelがシェアされる
                 scope.directiveMain.triangle = FigureService.triangle(10, 5);
                 scope.directiveMain.circle = FigureService.circle(10);
-                scope.directiveMain.trapezoid = FigureService.trapezoid(10, 5, 3);
+                scope.directiveMain.trapezoid = $filter(scope.filterName)(FigureService.trapezoid(1320, 5, 3));
+
+                scope.myBlur = function() {
+                    console.log($filter(scope.filterName)(scope.directiveMain.trapezoid));
+                };
             }
             /*
             compile: function(element, attrs) {
